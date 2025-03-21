@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import "./GetUser.css"
+import PoliticianCard from "./PoliticianCard";
 
 function GetUser() {
     const [user, setUser] = useState([])
@@ -28,38 +29,24 @@ function GetUser() {
 
     const bioFiltrata = user.filter(d => d.biography.toLowerCase().includes(valore.toLocaleLowerCase()))
 
-
+    const risultati = filtrati.length > 0 ? filtrati : bioFiltrata;
     return (
         <div className="container">
             <h1>Lista Politici</h1>
             <div>
-                <input  className="input-search" type="text" onChange={handleChange} value={valore} placeholder="Cerca per nome o biografia..." />
-                
-                {filtrati.length > 0 
-                ? filtrati.map(cur => (
-                    <div className="card">
+                <input className="input-search" type="text" onChange={handleChange} value={valore} placeholder="Cerca per nome o biografia..." />
 
-                    <h2>{cur.name}</h2>
-                    <div className="img-container">
-                        <img src={cur.image} alt="" />
-                    </div>
-                    <p>{cur.position}</p>
-                    <p>{cur.biography}</p>
-                </div>
-            )) 
-                : bioFiltrata.map(cur => (
-                    <div className="card">
-
-                    <h2>{cur.name}</h2>
-                    <div className="img-container">
-                        <img src={cur.image} alt="" />
-                    </div>
-                    <p>{cur.position}</p>
-                    <p>{cur.biography}</p>
-                </div>
+                {risultati.map(cur => (
+                    <PoliticianCard
+                        key={cur.id}
+                        name={cur.name}
+                        image={cur.image}
+                        position={cur.position}
+                        biography={cur.biography}
+                    />
                 ))}
             </div>
-            
+
         </div>
     )
 }
